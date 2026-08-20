@@ -14,7 +14,8 @@
         "vscjava.vscode-java-pack",           
         "vmware.vscode-spring-boot",          
         "vscjava.vscode-spring-boot-dashboard", 
-        "cweijan.vscode-mysql-client2"        
+        "cweijan.vscode-mysql-client2",
+        "vscjava.vscode-spring-initializr"
       ],
 
       // Define configuracoes visuais e de ambiente do Visual Studio
