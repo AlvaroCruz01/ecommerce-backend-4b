@@ -11,22 +11,15 @@ import lombok.Setter;
 @Getter
 @Setter
 
-// @NoArgsConstructor
-// @AllArgsConstructor
-// @Data
-
-// byte short int long Byte Shart Integer Long
-// floot double Floot Double
-// char Character
-// boolean Boolean
-
-public class Categoria {
+public class Cliente {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Short id;
+    private Integer id;
 
     private String nome;
-    private String descricao;
 
+    private String email;
+
+    private String telefone;
 
 }
