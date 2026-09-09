@@ -16,20 +16,20 @@ VALUES ('Periféricos', 'Periféricos para computadores');
 
 
 /* === 2. TABELA PRODUTO === */
-INSERT INTO produto(id, nome, descricao, preco, estoque, categoria_Id)
-VALUES (101, 'Mouse Gamer RGB', 'Mouse óptico 3200 DPI com botões laterais', 75.25, 50, 1);
+INSERT INTO produto(nome, descricao, preco, estoque, categoria_Id)
+VALUES ('Mouse Gamer RGB', 'Mouse óptico 3200 DPI com botões laterais', 75.25, 50, 8);
 
-INSERT INTO produto(id, nome, descricao, preco, estoque, categoria_Id)
-VALUES (102, 'Teclado Sem Fio', 'Teclado slim layout ABNT2 conexão Bluetooth', 89.90, 30, 1);
+INSERT INTO produto(nome, descricao, preco, estoque, categoria_Id)
+VALUES ('Teclado Sem Fio', 'Teclado slim layout ABNT2 conexão Bluetooth', 89.90, 30, 9);
 
-INSERT INTO produto(id, nome, descricao, preco, estoque, categoria_Id)
-VALUES (103, 'Cadeira Escritório', 'Cadeira ergonômica com regulagem de altura', 300.00, 12, 2);
+INSERT INTO produto(nome, descricao, preco, estoque, categoria_Id)
+VALUES ('Cadeira Escritório', 'Cadeira ergonômica com regulagem de altura', 300.00, 12, 10);
 
-INSERT INTO produto(id, nome, descricao, preco, estoque, categoria_Id)
-VALUES (104, 'Luminária de Mesa', 'Luminária LED articulada com 3 níveis de luz', 120.00, 25, 2);
+INSERT INTO produto(nome, descricao, preco, estoque, categoria_Id)
+VALUES ('Luminária de Mesa', 'Luminária LED articulada com 3 níveis de luz', 120.00, 25, 11);
 
-INSERT INTO produto(id, nome, descricao, preco, estoque, categoria_Id)
-VALUES (105, 'Fone de Ouvido Bluetooth', 'Fone intra-auricular com isolamento acústico', 199.90, 40, 1);
+INSERT INTO produto(nome, descricao, preco, estoque, categoria_Id)
+VALUES ('Fone de Ouvido Bluetooth', 'Fone intra-auricular com isolamento acústico', 199.90, 40, 12);
 
 
 /* === 3. TABELA CLIENTE === */
@@ -51,50 +51,50 @@ VALUES ('Carlos Oliveira', 'carlos.oliveira@gmail.com', '+55 41 991223344');
 
 /* === 4. TABELA PEDIDO === */
 INSERT INTO pedido(data, status, valor_Total, cliente_Id)
-VALUES ('2026-09-02', 'Entregue', 150.50, 1);
+VALUES ('2026-09-02', 'Entregue', 150.50, 6);
 
 INSERT INTO pedido(data, status, valor_Total, cliente_Id)
-VALUES ('2026-09-02', 'Processando', 89.90, 2);
+VALUES ('2026-09-02', 'Processando', 89.90, 7);
 
 INSERT INTO pedido(data, status, valor_Total, cliente_Id)
-VALUES ('2026-09-01', 'Cancelado', 420.00, 3);
+VALUES ('2026-09-01', 'Cancelado', 420.00, 8);
 
 INSERT INTO pedido(data, status, valor_Total, cliente_Id)
-VALUES ('2026-09-02', 'Enviado', 215.40, 4);
+VALUES ('2026-09-02', 'Enviado', 215.40, 9);
 
 INSERT INTO pedido(data, status, valor_Total, cliente_Id)
-VALUES ('2026-09-02', 'Processando', 199.90, 5);
+VALUES ('2026-09-02', 'Processando', 199.90, 10);
 
 
 /* === 5. TABELA ITEMPEDIDO === */
 INSERT INTO item_pedido(quantidade, valor_Unitario, pedido_Id, produto_Id)
-VALUES (2, 75.25, 1, 101);
+VALUES (2, 75.25, 8, 109);
 
 INSERT INTO item_pedido(quantidade, valor_Unitario, pedido_Id, produto_Id)
-VALUES (1, 89.90, 2, 102);
+VALUES (1, 89.90, 9, 110);
 
 INSERT INTO item_pedido(quantidade, valor_Unitario, pedido_Id, produto_Id)
-VALUES (1, 300.00, 3, 103);
+VALUES (1, 300.00, 10, 111);
 
 INSERT INTO item_pedido(quantidade, valor_Unitario, pedido_Id, produto_Id)
-VALUES (1, 120.00, 3, 104);
+VALUES (1, 120.00, 11, 112);
 
 INSERT INTO item_pedido(quantidade, valor_Unitario, pedido_Id, produto_Id)
-VALUES (2, 107.70, 4, 101);
+VALUES (2, 107.70, 13, 113);
 
 
 /* === 6. TABELA PAGAMENTO === */
 INSERT INTO pagamento(valor, data, status, tipo, pedido_Id)
-VALUES (150.50, '2026-09-02', 'Concluído', 'Cartão de Crédito', 1);
+VALUES (150.50, '2026-09-02', 'Concluído', 'Cartão de Crédito', 8);
 
 INSERT INTO pagamento(valor, data, status, tipo, pedido_Id)
-VALUES (89.90, '2026-09-02', 'Pendente', 'Pix', 2);
+VALUES (89.90, '2026-09-02', 'Pendente', 'Pix', 9);
 
 INSERT INTO pagamento(valor, data, status, tipo, pedido_Id)
-VALUES (420.00, '2026-09-01', 'Estornado', 'Boleto', 3);
+VALUES (420.00, '2026-09-01', 'Estornado', 'Boleto', 10);
 
 INSERT INTO pagamento(valor, data, status, tipo, pedido_Id)
-VALUES (215.40, '2026-09-02', 'Concluído', 'Pix', 4);
+VALUES (215.40, '2026-09-02', 'Concluído', 'Pix', 11);
 
 INSERT INTO pagamento(valor, data, status, tipo, pedido_Id)
-VALUES (199.90, '2026-09-02', 'Pendente', 'Cartão de Crédito', 5);
+VALUES (199.90, '2026-09-02', 'Pendente', 'Cartão de Crédito', 13);
