@@ -34,6 +34,7 @@ public class ProdutoRepositorioTests {
 
         assertNotNull(produto);
         assertEquals("Mouse Gamer RGB", produto.getNome());
+        assertNotNull(produto.getPreco());
     }
 
     @Test
@@ -75,5 +76,28 @@ public class ProdutoRepositorioTests {
 
         assertTrue(produtoRepositorio.existsById(produto.getId()));
         assertEquals("Nome Teste", produtoRepositorio.findById(produto.getId()).orElseThrow().getNome());
+    }
+
+    @Test
+    @Order (5)
+    public void deveAlterarUmProduto(){
+        Produto produto = new Produto(); 
+
+        produto.setNome("Produto Para Alterar");
+        produto.setDescricao("Descrição Original");
+        produto.setEstoque(Short.parseShort("5"));
+        produto.setPreco(new BigDecimal("50.00"));
+        produto.setCategoria(categoriaRepositorio.findById(Short.parseShort("1")).orElseThrow());
+        produtoRepositorio.save(produto);
+
+        Integer id = produto.getId();
+
+        produto.setNome("Produto Alterado com Sucesso");
+        produto.setPreco(new BigDecimal("75.00"));
+        produtoRepositorio.save(produto);
+
+        Produto produtoAlterado = produtoRepositorio.findById(id).orElseThrow();
+        assertEquals("Produto Alterado com Sucesso", produtoAlterado.getNome());
+        assertEquals(new BigDecimal("75.00"), produtoAlterado.getPreco());
     }
 }
