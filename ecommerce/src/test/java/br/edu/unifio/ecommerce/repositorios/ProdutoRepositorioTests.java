@@ -15,10 +15,12 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.unifio.ecommerce.entidades.Produto;
 
 @SpringBootTest
+@Transactional 
 @TestMethodOrder (MethodOrderer.OrderAnnotation.class)
 public class ProdutoRepositorioTests {
     @Autowired 
@@ -42,8 +44,8 @@ public class ProdutoRepositorioTests {
         List<Produto> produtos = produtoRepositorio.findAll(Sort.by("nome"));
 
         assertEquals(5, produtos.size());
-        assertEquals("Código Limpo", produtos.get(0).getNome());
-        assertEquals("Cadeira Escritório", produtos.get(1).getNome());
+        assertEquals("Cadeira Escritório", produtos.get(0).getNome());
+        assertEquals("Fone de Ouvido Bluetooth", produtos.get(1).getNome());
     }
 
     @Test
@@ -60,7 +62,8 @@ public class ProdutoRepositorioTests {
         assertTrue(produtoRepositorio.existsById(produto.getId()));
         produtoRepositorio.deleteById(produto.getId());
         assertFalse(produtoRepositorio.existsById(produto.getId()));
-    
+    }
+
     @Test 
     @Order (4)
     public void deveSalvarUmProduto (){
@@ -75,6 +78,4 @@ public class ProdutoRepositorioTests {
         assertTrue(produtoRepositorio.existsById(produto.getId()));
         assertEquals("Nome Teste", produtoRepositorio.findById(produto.getId()).orElseThrow().getNome());
     }
-    }
-
 }
