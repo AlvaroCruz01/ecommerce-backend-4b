@@ -15,12 +15,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.unifio.ecommerce.entidades.Produto;
 
 @SpringBootTest
-@Transactional 
 @TestMethodOrder (MethodOrderer.OrderAnnotation.class)
 public class ProdutoRepositorioTests {
     @Autowired 
