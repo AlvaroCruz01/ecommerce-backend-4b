@@ -81,13 +81,13 @@ public class ProdutoRepositorioTests {
     @Test
     @Order (5)
     public void deveAlterarUmProduto(){
-        Produto produto = new Produto(); 
+        Produto produto = new Produto();
 
         produto.setNome("Produto Para Alterar");
         produto.setDescricao("Descrição Original");
         produto.setEstoque(Short.parseShort("5"));
         produto.setPreco(new BigDecimal("50.00"));
-        produto.setCategoria(categoriaRepositorio.findById(Short.parseShort("1")).orElseThrow());
+        produto.setCategoria(categoriaRepositorio.findById((short) 1).orElseThrow());
         produtoRepositorio.save(produto);
 
         Integer id = produto.getId();
