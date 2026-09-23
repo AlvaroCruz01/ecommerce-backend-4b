@@ -75,28 +75,19 @@ public class Item_PedidoRepositorioTests {
         item_PedidoRepositorio.save(item_Pedido);
 
         assertTrue(item_PedidoRepositorio.existsById(item_Pedido.getId()));
-        assertEquals(Short.parseShort("3"), item_PedidoRepositorio.findById(item_Pedido.getId()).orElseThrow().getQuantidade());
+        assertEquals(1, item_PedidoRepositorio.findById(item_Pedido.getId()).orElseThrow().getQuantidade());
     }
 
     @Test
     @Order (5)
     public void deveAlterarUmItemPedido(){
-        Item_Pedido item_Pedido = new Item_Pedido(); 
+        Item_Pedido item_Pedido = item_PedidoRepositorio.findById(1).orElseThrow();
 
-        item_Pedido.setQuantidade(1);
-        item_Pedido.setValorUnitario(new BigDecimal("50.00"));
-        item_Pedido.setPedido(pedidoRepositorio.findById(1).orElseThrow());
-        item_Pedido.setProduto(produtoRepositorio.findById(1).orElseThrow());
-        item_PedidoRepositorio.save(item_Pedido);
-
-        Integer id = item_Pedido.getId();
-
-        item_Pedido.setQuantidade(1);
+        item_Pedido.setQuantidade(5);
         item_Pedido.setValorUnitario(new BigDecimal("75.00"));
         item_PedidoRepositorio.save(item_Pedido);
-
-        Item_Pedido item_PedidoAlterado = item_PedidoRepositorio.findById(id).orElseThrow();
-        assertEquals(Short.parseShort("10"), item_PedidoAlterado.getQuantidade());
+        Item_Pedido item_PedidoAlterado = item_PedidoRepositorio.findById(1).orElseThrow();
+        assertEquals(5, item_PedidoAlterado.getQuantidade());
         assertEquals(new BigDecimal("75.00"), item_PedidoAlterado.getValorUnitario());
     }
 }
