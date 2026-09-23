@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 
 import br.edu.unifio.ecommerce.entidades.Pagamento;
+import br.edu.unifio.ecommerce.entidades.Pedido;
 
 @SpringBootTest 
 @TestMethodOrder (MethodOrderer.OrderAnnotation.class)
@@ -27,6 +28,9 @@ public class PagamentoRepositorioTests {
 
     @Autowired
     private PedidoRepositorio pedidoRepositorio;
+
+    @Autowired
+    private ClienteRepositorio clienteRepositorio;
 
     @Test
     @Order (1)
@@ -52,13 +56,7 @@ public class PagamentoRepositorioTests {
     @Test
     @Order (3)
     public void deveExcluirUmPagamentoPorId (){
-        Pagamento pagamento = new Pagamento();
-        pagamento.setData(java.time.LocalDateTime.now());
-        pagamento.setValor(new BigDecimal("10.00"));
-        pagamento.setStatus("Teste");
-        pagamento.setTipo("Pix");
-        pagamento.setPedido(pedidoRepositorio.findById(1).orElseThrow());
-        pagamentoRepositorio.save(pagamento);
+        Pagamento pagamento = pagamentoRepositorio.findById(5).orElseThrow();
 
         assertTrue(pagamentoRepositorio.existsById(pagamento.getId()));
         pagamentoRepositorio.deleteById(pagamento.getId());
@@ -68,12 +66,20 @@ public class PagamentoRepositorioTests {
     @Test 
     @Order (4)
     public void deveSalvarUmPagamento (){
+        Pedido novoPedido = new Pedido();
+        novoPedido.setData(java.time.LocalDateTime.now());
+        novoPedido.setStatus("Pendente");
+        novoPedido.setValorTotal(new BigDecimal("20.00"));
+        novoPedido.setCliente(clienteRepositorio.findById(1).orElseThrow());
+        pedidoRepositorio.save(novoPedido);
+
         Pagamento pagamento = new Pagamento();
         pagamento.setData(java.time.LocalDateTime.now());
         pagamento.setValor(new BigDecimal("20.00"));
         pagamento.setStatus("Concluído");
         pagamento.setTipo("Pix");
-        pagamento.setPedido(pedidoRepositorio.findById(1).orElseThrow());
+        pagamento.setPedido(novoPedido);
+
         pagamentoRepositorio.save(pagamento);
 
         assertTrue(pagamentoRepositorio.existsById(pagamento.getId()));
@@ -83,24 +89,16 @@ public class PagamentoRepositorioTests {
     @Test
     @Order (5)
     public void deveAlterarUmPagamento(){
-        Pagamento pagamento = new Pagamento(); 
-
-        pagamento.setData(java.time.LocalDateTime.now());
-        pagamento.setValor(new BigDecimal("50.00"));
-        pagamento.setStatus("Pendente");
-        pagamento.setTipo("Boleto");
-        pagamento.setPedido(pedidoRepositorio.findById(1).orElseThrow());
-        pagamentoRepositorio.save(pagamento);
-
-        Integer id = pagamento.getId();
-
+        Pagamento pagamento = pagamentoRepositorio.findById(1).orElseThrow();
         pagamento.setStatus("Concluído");
         pagamento.setValor(new BigDecimal("75.00"));
+        pagamento.setTipo("Boleto");
         pagamentoRepositorio.save(pagamento);
 
-        Pagamento pagamentoAlterado = pagamentoRepositorio.findById(id).orElseThrow();
+        Pagamento pagamentoAlterado = pagamentoRepositorio.findById(1).orElseThrow();
         assertEquals("Concluído", pagamentoAlterado.getStatus());
         assertEquals(new BigDecimal("75.00"), pagamentoAlterado.getValor());
+        assertEquals("Boleto", pagamentoAlterado.getTipo());
     }
 
 }
