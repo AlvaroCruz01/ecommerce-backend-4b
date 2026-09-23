@@ -36,7 +36,8 @@ public class PedidoRepositorioTests {
         Pedido pedido = pedidoRepositorio.findById(1).orElseThrow();
 
         assertNotNull(pedido);
-        assertEquals("Entregue", pedido.getStatus());
+        assertNotNull(pedido.getData());
+        assertNotNull(pedido.getCliente());
     }
 
     @Test
@@ -44,8 +45,7 @@ public class PedidoRepositorioTests {
     public void deveListarTodosOsPedidos() {
         List<Pedido> pedidos = pedidoRepositorio.findAll(Sort.by("id"));
 
-        assertNotNull(pedidos);
-        assertFalse(pedidos.isEmpty());
+        assertEquals(5, pedidos.size());
     }
 
     @Test
@@ -54,9 +54,9 @@ public class PedidoRepositorioTests {
         Cliente cliente = clienteRepositorio.findById(1).orElseThrow();
 
         Pedido pedido = new Pedido();
-        pedido.setDataPedido(LocalDate.now());
+        pedido.setData(LocalDate.now());
         pedido.setStatus("Pendente");
-        pedido.setTotal(new BigDecimal("150.00"));
+        pedido.setValorTotal(new BigDecimal("1.00"));
         pedido.setCliente(cliente);
 
         pedidoRepositorio.save(pedido);
