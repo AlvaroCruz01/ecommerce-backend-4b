@@ -31,7 +31,7 @@ public class ClienteRepositorioTests {
 
         assertNotNull(cliente);
         assertEquals("Murilo", cliente.getNome());
-        assertNotNull(cliente.getEmail());
+        assertEquals("murilogabriel321@gmail.com", cliente.getEmail());
     }
 
     @Test
@@ -40,8 +40,8 @@ public class ClienteRepositorioTests {
         List<Cliente> clientes = clienteRepositorio.findAll(Sort.by("nome"));
 
         assertEquals(5, clientes.size());
-        assertEquals("Ana Silva", clientes.get(0).getNome());
-        assertEquals("Carlos Souza", clientes.get(1).getNome());
+        assertEquals("Beatriz Cruz", clientes.get(0).getNome());
+        assertEquals("Carlos Oliveira", clientes.get(1).getNome());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class ClienteRepositorioTests {
         Cliente cliente = new Cliente();
         cliente.setNome("Nome Teste");
         cliente.setEmail("teste@email.com");
-        cliente.setTelefone("14999999999");
+        cliente.setTelefone("+55 14 999999999");
         clienteRepositorio.save(cliente);
 
         assertTrue(clienteRepositorio.existsById(cliente.getId()));
@@ -64,7 +64,7 @@ public class ClienteRepositorioTests {
         Cliente cliente = new Cliente();
         cliente.setNome("Nome Teste");
         cliente.setEmail("teste@email.com");
-        cliente.setTelefone("14999999999");
+        cliente.setTelefone("+55 14 999999999");
         clienteRepositorio.save(cliente);
 
         assertTrue(clienteRepositorio.existsById(cliente.getId()));
@@ -78,7 +78,7 @@ public class ClienteRepositorioTests {
 
         cliente.setNome("Cliente Para Alterar");
         cliente.setEmail("alterar@email.com");
-        cliente.setTelefone("14999999999");
+        cliente.setTelefone("+55 14 999999999");
         clienteRepositorio.save(cliente);
 
         Integer id = cliente.getId();

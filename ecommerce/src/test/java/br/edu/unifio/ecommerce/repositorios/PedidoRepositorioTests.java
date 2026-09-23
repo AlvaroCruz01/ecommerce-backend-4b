@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.MethodOrderer;
@@ -17,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 
-import br.edu.unifio.ecommerce.entidades.Cliente;
 import br.edu.unifio.ecommerce.entidades.Pedido;
 
 @SpringBootTest
@@ -36,8 +34,8 @@ public class PedidoRepositorioTests {
         Pedido pedido = pedidoRepositorio.findById(1).orElseThrow();
 
         assertNotNull(pedido);
-        assertNotNull(pedido.getData());
-        assertNotNull(pedido.getCliente());
+        assertEquals("Entregue", pedido.getStatus());
+        assertEquals(new BigDecimal("150.50"), pedido.getValorTotal());
     }
 
     @Test
@@ -46,19 +44,33 @@ public class PedidoRepositorioTests {
         List<Pedido> pedidos = pedidoRepositorio.findAll(Sort.by("id"));
 
         assertEquals(5, pedidos.size());
+        assertEquals("Entregue", pedidos.get(0).getStatus());
+        assertEquals("Processando", pedidos.get(1).getStatus());
     }
 
     @Test
     @Order(3)
-    public void deveSalvarUmPedido() {
-        Cliente cliente = clienteRepositorio.findById(1).orElseThrow();
-
+    public void deveExcluirUmPedidoPorId () {
         Pedido pedido = new Pedido();
-        pedido.setData(LocalDate.now());
-        pedido.setStatus("Pendente");
-        pedido.setValorTotal(new BigDecimal("1.00"));
-        pedido.setCliente(cliente);
+        pedido.setData(java.time.LocalDateTime.now());
+        pedido.setStatus("Teste");
+        pedido.setValorTotal(new BigDecimal("100.00"));
+        pedido.setCliente(clienteRepositorio.findById(1).orElseThrow());
+        pedidoRepositorio.save(pedido);
 
+        assertTrue(pedidoRepositorio.existsById(pedido.getId()));
+        pedidoRepositorio.deleteById(pedido.getId());
+        assertFalse(pedidoRepositorio.existsById(pedido.getId()));
+    }
+
+    @Test 
+    @Order (4)
+    public void deveSalvarUmPedido (){
+        Pedido pedido = new Pedido();
+        pedido.setData(java.time.LocalDateTime.now());
+        pedido.setStatus("Pendente");
+        pedido.setValorTotal(new BigDecimal("100.00"));
+        pedido.setCliente(clienteRepositorio.findById(1).orElseThrow());
         pedidoRepositorio.save(pedido);
 
         assertTrue(pedidoRepositorio.existsById(pedido.getId()));
@@ -66,45 +78,24 @@ public class PedidoRepositorioTests {
     }
 
     @Test
-    @Order(4)
-    public void deveAlterarUmPedido() {
-        Cliente cliente = clienteRepositorio.findById(1).orElseThrow();
-
-        Pedido pedido = new Pedido();
-        pedido.setDataPedido(LocalDate.now());
-        pedido.setStatus("Aguardando Pagamento");
-        pedido.setTotal(new BigDecimal("200.00"));
-        pedido.setCliente(cliente);
-        pedidoRepositorio.save(pedido);
-
-        Integer id = pedido.getId();
-
-        
-        pedido.setStatus("Pago");
-        pedidoRepositorio.save(pedido);
-
-        Pedido pedidoAtualizado = pedidoRepositorio.findById(id).orElseThrow();
-        assertEquals("Pago", pedidoAtualizado.getStatus());
-    }
-
-    // 5. Exclusão
-    @Test
     @Order(5)
-    public void deveExcluirUmPedidoPorId() {
-        Cliente cliente = clienteRepositorio.findById(1).orElseThrow();
+    public void deveAlterarUmPedido() {
+        Pedido pedido = new Pedido(); 
 
-        Pedido pedido = new Pedido();
-        pedido.setDataPedido(LocalDate.now());
-        pedido.setStatus("Cancelado");
-        pedido.setTotal(new BigDecimal("50.00"));
-        pedido.setCliente(cliente);
+        pedido.setData(java.time.LocalDateTime.now());
+        pedido.setStatus("Em Análise");
+        pedido.setValorTotal(new BigDecimal("50.00"));
+        pedido.setCliente(clienteRepositorio.findById(1).orElseThrow());
         pedidoRepositorio.save(pedido);
 
         Integer id = pedido.getId();
-        assertTrue(pedidoRepositorio.existsById(id));
 
-        pedidoRepositorio.deleteById(id);
+        pedido.setStatus("Aprovado");
+        pedido.setValorTotal(new BigDecimal("75.00"));
+        pedidoRepositorio.save(pedido);
 
-        assertFalse(pedidoRepositorio.existsById(id));
+        Pedido pedidoAlterado = pedidoRepositorio.findById(id).orElseThrow();
+        assertEquals("Aprovado", pedidoAlterado.getStatus());
+        assertEquals(new BigDecimal("75.00"), pedidoAlterado.getValorTotal());
     }
 }
